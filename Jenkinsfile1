@@ -18,24 +18,27 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                echo 'Cleaning workspace...' // Debug message
-                cleanWs() // Removes any files from the workspace before the pipeline starts
+                echo 'Cleaning workspace...'
+                cleanWs()
             }
         }
 
         stage('Checkout') {
             steps {
-                echo 'Checking out the code from GitHub...' // Debug message
+                echo 'Checking out the code from GitHub...'
                 git branch: 'main', credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/ziyad-tarek1/myreact-app.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo 'Installing npm dependencies...' // Debug message
+                echo 'Installing npm dependencies...'
                 dir('react-app') { 
-                    sh "npm install" // Install npm dependencies inside the react-app directory
+                    sh "npm install"
                 }
             }
         }
 
+        // Add more stages or steps here, if needed
+    }
+}
