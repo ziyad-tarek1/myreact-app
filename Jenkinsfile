@@ -55,14 +55,19 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    // Run SonarQube scan
-                    sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=react-app -Dsonar.sources=. -Dsonar.host.url=http://192.168.209.135:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
-                }
-            }
+stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv(installationName:'SonarQubeServer') {
+            // Print variables
+            sh "echo SONAR_SCANNER_HOME = ${SONAR_SCANNER_HOME}"
+            sh "echo SONARQUBE_TOKEN = ${SONARQUBE_TOKEN}"
+            sh "echo SONAR_HOST_URL = http://192.168.209.135:9000"
+
+            // Run SonarQube scan
+            sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=react-app -Dsonar.sources=. -Dsonar.host.url=http://192.168.209.135:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
         }
+    }
+}
 
         stage('Trivy FS Scan') {
             steps {
