@@ -129,9 +129,7 @@ pipeline {
 
     post {
         always {
-            node {
-                cleanWs()
-            }
+            cleanWs() // Removed node block, which caused the issue
         }
     }
 }
