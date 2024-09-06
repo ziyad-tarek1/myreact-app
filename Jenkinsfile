@@ -24,8 +24,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                // Checkout the code from the repository
-                git branch: 'main', credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/yourusername/myreact-app.git'
+                git branch: 'main', credentialsId: "${GITHUB_CREDENTIALS}", url: 'https://github.com/ziyad-tarek1/myreact-app.git'
             }
         }
 
@@ -130,8 +129,9 @@ pipeline {
 
     post {
         always {
-            // Clean the workspace after build completion
-            cleanWs()
+            node {
+                cleanWs()
+            }
         }
     }
 }
