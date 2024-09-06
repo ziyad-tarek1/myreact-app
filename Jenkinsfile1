@@ -8,10 +8,10 @@ pipeline {
     environment {
         DOCKER_CREDENTIALS_ID = 'DockerHub-Cred' // Credentials ID for DockerHub stored in Jenkins Credentials
         GITHUB_CREDENTIALS = 'Git-cred' // GitHub credentials ID stored in Jenkins Credentials
-        SONARQUBE_SERVER = 'SonarQubeServer' // Name of the SonarQube server configuration in Jenkins
+   //     SONARQUBE_SERVER = 'SonarQubeServer' // Name of the SonarQube server configuration in Jenkins
         DOCKERHUB_REPO = 'ziyadtarek99/myreact-app' // DockerHub repository for your image
-        SONAR_SCANNER_HOME = tool 'SonarQube Scanner' // Reference to SonarQube Scanner tool in Jenkins
-        SONARQUBE_TOKEN = 'SonarQube'  // this is my sonarqube secret text (token) credential ID // Your SonarQube authentication token, needs to be configured
+     //   SONAR_SCANNER_HOME = tool 'SonarQube Scanner' // Reference to SonarQube Scanner tool in Jenkins
+      //  SONARQUBE_TOKEN = 'SonarQube'  // this is my sonarqube secret text (token) credential ID // Your SonarQube authentication token, needs to be configured
         K8S_CRED_ID = 'myminikube-cred' // Kubernetes credentials stored in Jenkins
     }
 
