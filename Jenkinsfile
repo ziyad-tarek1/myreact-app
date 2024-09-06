@@ -11,7 +11,7 @@ pipeline {
         SONARQUBE_SERVER = 'SonarQubeServer' // Name of the SonarQube server configuration in Jenkins
         DOCKERHUB_REPO = 'ziyadtarek99/myreact-app' // DockerHub repository for your image
         SONAR_SCANNER_HOME = tool 'SonarQube Scanner' // Reference to SonarQube Scanner tool in Jenkins
-        SONARQUBE_TOKEN = 'SonarQube'  // this is my sonarqube secret text (token) credintial ID  // Your SonarQube authentication token, needs to be configured
+        SONARQUBE_TOKEN = 'SonarQube'  // this is my sonarqube secret text (token) credential ID // Your SonarQube authentication token, needs to be configured
         K8S_CRED_ID = 'myminikube-cred' // Kubernetes credentials stored in Jenkins
     }
 
@@ -57,22 +57,23 @@ pipeline {
             }
         }
 
-withCredentials([string(credentialsId: 'SonarQube', variable: 'SONARQUBE_TOKEN')]) {
-    stage('SonarQube Analysis') {
-        steps {
-            echo 'Starting SonarQube analysis...' // Debug message
-            withSonarQubeEnv(installationName: 'SonarQubeServer') {
-                // Print variables for debugging
-                sh "echo SONAR_SCANNER_HOME = ${SONAR_SCANNER_HOME}"
-                sh "echo SONARQUBE_TOKEN = ${SONARQUBE_TOKEN}"
-                sh "echo SONAR_HOST_URL = http://192.168.209.135:9000" // Update to your actual SonarQube URL
+        stage('SonarQube Analysis') {
+            steps {
+                withCredentials([string(credentialsId: 'SonarQube', variable: 'SONARQUBE_TOKEN')]) {
+                    echo 'Starting SonarQube analysis...' // Debug message
+                    withSonarQubeEnv(installationName: 'SonarQubeServer') {
+                        // Print variables for debugging
+                        sh "echo SONAR_SCANNER_HOME = ${SONAR_SCANNER_HOME}"
+                        sh "echo SONARQUBE_TOKEN = ${SONARQUBE_TOKEN}"
+                        sh "echo SONAR_HOST_URL = http://192.168.209.135:9000" // Update to your actual SonarQube URL
 
-                // Run SonarQube analysis on the project
-                sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=react-app -Dsonar.sources=. -Dsonar.host.url=http://192.168.209.135:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+                        // Run SonarQube analysis on the project
+                        sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=react-app -Dsonar.sources=. -Dsonar.host.url=http://192.168.209.135:9000 -Dsonar.login=${SONARQUBE_TOKEN}"
+                    }
+                }
             }
         }
-    }
-}
+
         stage('Trivy FS Scan') {
             steps {
                 echo 'Running Trivy file system scan...' // Debug message
